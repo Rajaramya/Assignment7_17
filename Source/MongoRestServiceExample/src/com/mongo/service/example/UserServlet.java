@@ -25,6 +25,7 @@ import com.mongodb.WriteResult;
  * Servlet implementation class UserServlet
  */
 @Path("/user")
+
 public class UserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -48,12 +49,22 @@ public class UserServlet extends HttpServlet {
 
 		DB db = client.getDB(uri.getDatabase());
 		DBCollection users = db.getCollection("studentrecords");
-		BasicDBObject query = new BasicDBObject();
-		query.put("name","Rajaramya");// request.getParameter("name"));
-		query.put("password","password"); //request.getParameter("password"));
+		
+		BasicDBObject query = new BasicDBObject().append("name","Rajaramya");
+		//users.remove(new BasicDBObject().append("name", "Rajahamsa"));
+		BasicDBObject newDocument = new BasicDBObject();
+		newDocument.put("name","Rajahamsa");
+		newDocument.put("name","navya");
+		users.remove(newDocument);
+		users.update(query,newDocument);
+		query.put("name","navya");// request.getParameter("name"));
+		query.put("password","navya12"); //request.getParameter("password"));
+		
+		
+		
+		
 		DBCursor docs = users.find(query);
 		response.getWriter().write(docs.toArray().toString());
-		
 		
 		
 		response.setHeader("Access-Control-Allow-Origin", "*");
